@@ -11,7 +11,7 @@ include "head.php";
 				<label for="password-form">Password</label>
 				<input type="password" class="form-control" name="password" id="password-form" placeholder="Enter password">
 			</div>
-			<button type="submit" class="btn btn-default">Submit</button>
+			<button type="submit" class="btn btn-primary">Submit</button>
 		</form> <br>
 		<?php if ( isset($_GET["loginfail"])){ ?>
 			<div class="alert alert-danger" role="alert">

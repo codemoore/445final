@@ -62,6 +62,11 @@ $(window).load(function () {
 		});
 	});
 
+	$("#add-image").click(function (e) {
+		e.preventDefault();
+		$("#choose-file").append('<input name="files" type="file">');
+		console.log("add image")
+	})
 });
 
 function getTradeList(qType, dom) {
