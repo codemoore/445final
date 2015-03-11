@@ -26,6 +26,16 @@ $postI = $db->query($sqlI);
 <?php 
 	if(isset($_GET["email"])) {
 		echo "<h2 id='user-email'>" . $_GET["email"] . "</h2>" ?>
+	<?php if(isset($_SESSION["email"])) { ?> 
+	<div class="container" style="margin-top:1em;margin-bottom:1em;"> 
+		<form action="addItem.php" method="post">
+			<button id="new-post" type="button" class="btn btn-primary">New Post</button>
+		</form>
+		<form action="addPost.php" method="post">
+			<button id="add-item" type="button" class="btn btn-primary">Add Item</button>
+		</form>
+	</div>
+	<?php } ?>
 	<div class="container">
 		<ul class="nav nav-tabs">
 	  		<li role="presentation" class="active"><a href="#postHistory">Post History</a></li>
