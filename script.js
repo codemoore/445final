@@ -29,7 +29,17 @@ $(document).ready(function () {
 
 
 	$("#user").ready(function() {
+		$(".nav-tabs li").click(function (e) {
+			$(".nav-tabs li").removeClass("active");
+			$(e.target.parentElement).addClass("active");
 
+			$(".user-info").removeClass("foreground");
+			$(".user-info").addClass("background");
+
+			$(e.target.getAttribute("href")).removeClass("background");
+			$(e.target.getAttribute("href")).addClass("foreground");
+
+		});
 	});
 
 });
