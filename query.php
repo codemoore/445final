@@ -2,17 +2,23 @@
 include "functions.php";
 
 //$con->close();
-if($_GET["type"] == "TradeListDescDate") {
+if(isset($_GET["type"])) {
+	if($_GET["type"] == "TradeListDescDate") {
 	printTradeList("ORDER BY p.dateCreated DESC");
-} else if ($_GET["type"] == "TradeListAscDate") {
+	} else if ($_GET["type"] == "TradeListAscDate") {
 	printTradeList("ORDER BY p.dateCreated ASC");
-} else if ($_GET["type"] == "TradeListDescTitle") {
+	} else if ($_GET["type"] == "TradeListDescTitle") {
 	printTradeList("ORDER BY p.title DESC");
-} else if ($_GET["type"] == "TradeListAscTitle") {
+	} else if ($_GET["type"] == "TradeListAscTitle") {
 	printTradeList("ORDER BY p.title ASC");
-} else if ($_POST["item-name"] != null) {
+	}
+} else if (isset($_POST["item-name"]) || isset($_GET["item-name"])) {
+	echo "item add";
 	#addItem($_SESSION["email"], $_POST["item-name"])
+} else if (isset($_POST["post-title"])) {
+	echo "post add";
 }
+
 
 function addItem($email, $item_name, $item_description, $imgs) {
 	

@@ -7,7 +7,7 @@ include "head.php";
 	<form action="query.php" type="post">
 		<label for="item-name">Item Name</label>
 		<div class="form-group">
-			<input id="item-name" type="text" placeholder="Item Name">
+			<input id="item-name" name="item-name" type="text" placeholder="Item Name">
 		</div>
 		<label for="item-decript">Description</label>
 		<div class="form-group">
@@ -15,7 +15,7 @@ include "head.php";
 		</div>
 		<label>Images</label>
 		<div class="form-group" id="choose-file">
-			<input name="files" type="file">
+			<input name="file0" type="file">
 		</div>
 		<div class="form-group">
 			<button type="button" id="add-image" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span> Add another image</button>

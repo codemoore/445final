@@ -25,7 +25,7 @@
 	       					<li ><p class="navbar-text" style="display:inline;"><?php echo 'Logged in as:' . $_SESSION["email"] ?> </p></li>
 	       					<li><button type="button" class="btn btn-default navbar-btn" id="sign-out-button">Sign out</button> </li>
 	       				<?php } else { ?>
-	       					<li><button type="button" class="btn btn-default navbar-btn" id="sign-in-button">Sign in</button></li>
+	       					<li><button type="button" class="btn btn-default navbar-btn" id="sign-in-button">Sign in / Register</button></li>
 	       				<?php } ?>
 
 	       		 	</ul>

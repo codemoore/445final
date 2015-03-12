@@ -45,6 +45,10 @@ $(window).load(function () {
 			getTradeList("TradeList" + ascDesc + orderBy);
 		});
 	}
+	if(document.getElementById("add-new")) {
+		$("#myAccount").addClass("active")
+	}
+
 //	});
 
 
@@ -61,10 +65,10 @@ $(window).load(function () {
 
 		});
 	});
-
 	$("#add-image").click(function (e) {
 		e.preventDefault();
-		$("#choose-file").append('<input name="files" type="file">');
+		var i = $("#choose-file input").length;
+		$("#choose-file").append('<input name="file' + i + '" type="file">');
 		console.log("add image")
 	})
 });
