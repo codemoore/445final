@@ -1,15 +1,34 @@
-$(document).ready(function () {
-	$("#sign-in-button").ready(function (e) {
-		console.log($("#sign-in-button"));
-		$("#sign-in-button").click(function(e) {
-			console.log("signin");
+$(window).load(function () {
+	console.log("load");
+	if(document.getElementById("sign-in-button")){
+		document.getElementById("sign-in-button").onclick = function () {
 			$(location).attr('href', "./login.php");
-		});	
-	});
+		}
+	}
+	// JQUERY way Not Working for some reason
+	// $("#sign-in-button").click(function (e) {
+	// 	$(location).attr('href', "./login.php");
+	// });
+	$("#sign-out-button").click(function (e) {
+		$(location).attr('href', "./logout.php");
+	});	
 
-	$("#list").ready(function() {
-		$(".navbar-nav li").removeClass("active");
-		$("#list").addClass("active");
+	var links = document.getElementsByClassName("navLink");
+	for (var i = 0; i < links.length; i++) {
+		links[i].className = links[i].className.replace(/\bactive\b/, "");
+	}
+	//Jquery method also not working for this
+	//$(".navLink").removeClass("active");
+
+	for( var i = 0; i < $(".navLink").length; i++) {
+		console.log($(".navLink")[i]);
+		$(".navLink").removeClass("active");
+	}
+
+	console.log($("#list"));
+//	$("#list").ready(function() {
+	if (document.getElementById("list")) {
+		$("#list-nav").addClass("active");
 		var orderBy = 'Date';
 		var ascDesc = 'Desc';
 		getTradeList("TradeList" + ascDesc + orderBy, "#list");
@@ -25,13 +44,29 @@ $(document).ready(function () {
 			ascDesc === 'Desc' ? ascDesc = 'Asc' : ascDesc = 'Desc';
 			getTradeList("TradeList" + ascDesc + orderBy);
 		});
-	});
+	}
+//	});
 
 
 	$("#user").ready(function() {
+		$(".nav-tabs li").click(function (e) {
+			$(".nav-tabs li").removeClass("active");
+			$(e.target.parentElement).addClass("active");
 
+			$(".user-info").removeClass("foreground");
+			$(".user-info").addClass("background");
+
+			$(e.target.getAttribute("href")).removeClass("background");
+			$(e.target.getAttribute("href")).addClass("foreground");
+
+		});
 	});
 
+	$("#add-image").click(function (e) {
+		e.preventDefault();
+		$("#choose-file").append('<input name="files" type="file">');
+		console.log("add image")
+	})
 });
 
 function getTradeList(qType, dom) {

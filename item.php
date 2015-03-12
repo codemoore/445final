@@ -6,5 +6,5 @@ include "head.php";
 </div>
 
 <?php
-include "bottom.php";
+include "foot.php";
 ?>
