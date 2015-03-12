@@ -2,14 +2,18 @@
 include "head.php";
 
 $db = connect();
-	$sql = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
+	$sqlH = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
 			FROM posts AS p, items as i, users as u, images as img
 			WHERE p.seller_item_id = i.id AND i.Users_email = u.email AND i.id = img.Items_id 
 			AND p.seller_item_id = i.id OR p.buyer_item_id = i.id AND u.Users_email = " . $user .
 			"GROUP BY p.id;";
-	$postH = $db->query($sql);
+	$postH = $db->query($sqlH);
 
-	
+	$sqlT = "";
+	$postT = $db->query($sql);
+
+	$sqlI = "";
+	$postI = $db->query($sql);
 	// echo '<ul class="media-list">';
 	// foreach ($posts as $post) {
 	// 	echo 	'<li class="media">';
