@@ -17,4 +17,9 @@ function redirect($location){
 	header($location);
 	die();
 }
+
+function getCurDate() {
+	date_default_timezone_set('America/Los_Angeles');
+	return date("Y-m-d H:i:s");
+}
 ?>

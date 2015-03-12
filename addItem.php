@@ -4,7 +4,7 @@ include "head.php";
 
 <div class="container"> 
 	<h2>Add a new Item</h2>
-	<form action="query.php" type="post">
+	<form action="query.php" method="post" enctype="multipart/form-data">
 		<label for="item-name">Item Name</label>
 		<div class="form-group">
 			<input id="item-name" name="item-name" type="text" placeholder="Item Name">

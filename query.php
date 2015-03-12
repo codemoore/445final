@@ -1,6 +1,6 @@
 <?php
 include "functions.php";
-
+session_start();
 //$con->close();
 if(isset($_GET["type"])) {
 	if($_GET["type"] == "TradeListDescDate") {
@@ -12,16 +12,39 @@ if(isset($_GET["type"])) {
 	} else if ($_GET["type"] == "TradeListAscTitle") {
 	printTradeList("ORDER BY p.title ASC");
 	}
-} else if (isset($_POST["item-name"]) || isset($_GET["item-name"])) {
-	echo "item add";
-	#addItem($_SESSION["email"], $_POST["item-name"])
+} else if (isset($_POST["item-name"])) {
+	if($_POST["item-name"] != null) {
+		echo $_POST["item-name"];
+		$db = connect();
+		$getMaxId = "SELECT id
+					FROM items
+					ORDER BY id DESC LIMIT 1";
+		$max = $db->query($getMaxId);
+		$id = $max->fetch()[0] + 1;
+		$newItem = "INSERT INTO Items VALUES (" . $id . ",
+					 '" . $_SESSION["email"] . "', '" 
+					. $_POST["item-name"] ."', '" 
+					. getCurDate() ."', '" 
+					. $_POST["item-descript"] . "');";
+		echo $db->exec($newItem);
+		foreach ($_FILES as $file) {
+			$tmp_name = $file["tmp_name"];
+	        $name = $file["name"];
+	        if($name != null && $name != "") {
+	        	move_uploaded_file($tmp_name, "./images/$name");
+	        	$newImage = "INSERT INTO Images VALUES ('./images/" . $name . "'," . $id .");";
+	        	$db->exec($newImage);
+	    	}
+		}
+		redirect("location: ./users.php?=" + $_SESSION["email"]);
+	} else {
+		echo "null";
+		#redirect back with error message
+	}
 } else if (isset($_POST["post-title"])) {
-	echo "post add";
-}
-
-
-function addItem($email, $item_name, $item_description, $imgs) {
-	
+	echo $_POST["post-title"];
+	echo $_POST["post-descript"];
+	echo $_POST["item"];
 }
 
 function printTradeList ($order) {

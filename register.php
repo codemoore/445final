@@ -13,9 +13,8 @@
 	} else {
 		session_start();
 		#insert new user
-		date_default_timezone_set('America/Los_Angeles');
 		$newUser = "INSERT INTO Users VALUES ('"
-					. $email . "', '" . date("Y-m-d H:i:s") ."', '" . $password . "');";
+					. $email . "', '" . getCurDate() ."', '" . $password . "');";
 		$db->exec($newUser);
 		$_SESSION["email"] = $email;
 		redirect("location: ./index.php"); #send to todlist

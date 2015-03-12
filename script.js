@@ -51,7 +51,7 @@ $(window).load(function () {
 
 //	});
 
-
+	//$("#choose-file input")
 	$("#user").ready(function() {
 		$(".nav-tabs li").click(function (e) {
 			$(".nav-tabs li").removeClass("active");
