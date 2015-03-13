@@ -6,10 +6,14 @@ To run locally:
 5. In your web browser go to localhost/subfolder/index.php where subfolder is the name of the sub folder in htdocs where you put the files
 6. If you use a server to run php, upload everything to the server and go to index.php
 
+5 Test queries and expected results are shown in test_cases.pdf
+
 Known bugs and missing features:
 -if you add an item ot post there is currently no checking to make sure you have all necessary value (attributes marked as not null in db), so if you don't fill those in there will be an error
 -When pictures are not present the porgram runs but the browser console complains
 -No check to make sure a file uploaded is actually a picture
 -When a user makes a trade with an item they have already put in a post, it removes the item but not the post
--In the user's history there is currently no way to tell if a trade post has been completed or is still active
--trades always go autmatically through; ideally both users would need to accept, but this feature is not implemented
+-trade history becomes inaccurate after the item gets traded multiple times
+-No Option to post an item recieved in a trade
+-trading is bugged, the seller keeps their item during a trade
+-Can currently put an item into mulitple posts

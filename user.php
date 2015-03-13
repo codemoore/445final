@@ -9,23 +9,23 @@ $db = connect();
 <?php 
 	if(isset($_GET["email"])) { #if there is a user email param
 		#gets the user's posts, where they are a seller 
-		$sqlH = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
+		$sqlH = 'SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id, p.buyer_item_id
 			FROM items AS i
 			LEFT JOIN images as img ON i.id = img.Items_id 
-			JOIN posts AS P ON p.seller_item_id = i.id
+			JOIN posts AS P ON p.seller_item_id = i.id 
 			JOIN users AS u ON i.Users_email = u.email
-			WHERE u.email = '" . $_GET["email"] . "'
-			GROUP BY p.id";
+			WHERE p.buyer_item_id IS NULL AND u.email = "' . $_GET["email"] . '"
+			GROUP BY p.id;';
 		$postH = $db->query($sqlH);
 
-		#gets all completed posts (has a buyer) the user was involved with
-		$sqlT = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
-				FROM items as i
-				LEFT JOIN images as img ON i.id = img.Items_id 
-				JOIN posts AS p ON p.seller_item_id = i.id OR p.buyer_item_id = i.id
-				JOIN users as u ON i.Users_email = u.email
-				WHERE u.email = '" . $_GET["email"] .  "' AND p.buyer_item_id <> null 
-				 GROUP BY p.id;";
+		#gets all completed posts where user was buyer
+		$sqlT = 'SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id, p.buyer_item_id
+			FROM items AS i
+			LEFT JOIN images as img ON i.id = img.Items_id 
+			JOIN posts AS P ON p.seller_item_id = i.id 
+			JOIN users AS u ON i.Users_email = u.email
+			WHERE p.buyer_item_id IS NOT NULL AND u.email = "' . $_GET["email"] . '"
+			GROUP BY p.id;';
 		$postT = $db->query($sqlT);
 
 		#gets items belonging to a user
@@ -52,7 +52,7 @@ $db = connect();
 	<?php } ?>
 	<div class="container">
 		<ul class="nav nav-tabs">
-	  		<li role="presentation" class="active"><a href="#postHistory">Post History</a></li>
+	  		<li role="presentation" class="active"><a href="#postHistory">Active Posts</a></li>
 	  		<li role="presentation"><a href="#tradeHistory">Trade History</a></li>
 	  		<li role="presentation"><a href="#items">Items</a></li>
 		</ul>
@@ -63,7 +63,7 @@ $db = connect();
 	<div class="container" id="content">
 		<div class="container user-info foreground" id="postHistory">
 		<?php
-			#print post history
+			#print active posts
 			echo '<ul class="media-list">';
 			foreach ($postH as $post) {
 				echo 	'<li class="media">';
@@ -86,13 +86,21 @@ $db = connect();
 			#prints completed transactions
 			echo '<ul class="media-list">';
 			foreach ($postT as $post) {
+				#getName for buyer item
+				$getName = 'SELECT name
+							FROM items
+							WHERE id =' . $post[7] . ';';
+				$name = $db->query($getName);
+				$name = $name->fetch()[0];
+
 				echo 	'<li class="media">';
 				echo 		'<div class="media-left">';
 				echo 			'<a href="#">';
 		        echo 				'<img class="media-object" src=' . $post[4] . ' alt=' . $post[2] . ' style="height:128px; width:128px;"></a>';
 		        echo 		"</div>";
 		        echo 		'<div class="media-body">';
-		        echo 			'<a href="./post.php?id=' . $post[6] . '"><h4 class="media-heading">' . $post[0] . '</h4></a>';
+		        echo 			'<h4 class="media-heading"><a href="./post.php?id=' . $post[6] . '">' . $post[0] . '</a> Aquired in exchange for 
+		        				<a href="./item.php?id=' . $post[7] . '">' . $name . '</h4>';
 		        echo 			'<p>' . $post[1] . '</p>'; 
 		        echo 			"<a href='./user.php?email=" . $post[3]. "'>" . $post[3] . "</a> <span>" . $post[5] . "</span>";
 		        echo 		"</div>";

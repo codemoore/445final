@@ -17,15 +17,15 @@ $images = $db->query($sql2);
 <div class="container" id="item"> 
 	<?php  $post = $posts->fetch(); #get row with item info?>
 	<h3> <?php echo $post[1]; ?> </h3>
-	<h4> Owned by <?php echo "<a href='user.php?email=" . $post[0] . "'</a>" . $post[0] ; ?> </h4>
+	<h4> Owned by <?php echo "<a href='user.php?email=" . $post[0] . "'> " . $post[0] . "</a>"; ?> </h4>
 	<p><?php echo $post[2]; ?></p>
 	<div class="container"> 
 	<?php #displays each image
 	foreach ($images as $image) { 
 	?>
-		<img class="img-thumbnail" src=<?php echo "". $image[0]; ?>>
+		<img class="img-thumbnail" src=<?php echo "". $image[0]; ?> >
 	<?php } ?>
-	
+	</div>
 </div>
 
 <?php
