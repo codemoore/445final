@@ -2,7 +2,7 @@
 function connect() {
 	$dsn = 'mysql:host=localhost;dbname=moore_joshua_db';
 	$user = "root";
-	$pass = "";
+	$pass = "1234";
 	$db = null;
 
 	try {

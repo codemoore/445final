@@ -3,29 +3,37 @@ include "head.php";
 include "functions.php";
 $db = connect();
 
-$sqlH = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
-		FROM posts AS p, items as i, users as u, images as img
-		WHERE u.email = '" . $_GET["email"] .  "' AND p.seller_item_id = i.id AND i.Users_email = u.email AND i.id = img.Items_id 
-		AND p.seller_item_id = i.id OR p.buyer_item_id = i.id GROUP BY p.id;";
-$postH = $db->query($sqlH);
-
-$sqlT = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
-		FROM posts AS p, items as i, users as u, images as img
-		WHERE u.email = '" . $_GET["email"] .  "' AND p.seller_item_id = i.id AND p.buyer_item_id <> null 
-		AND i.Users_email = u.email AND i.id = img.Items_id 
-		AND p.seller_item_id = i.id OR p.buyer_item_id = i.id GROUP BY p.id;";
-$postT = $db->query($sqlT);
-
-$sqlI = 'SELECT i.id, i.name, i.dateAdded,  i.description, img.filePath
-		FROM  items as i, images as img
-		WHERE i.Users_email = "' . $_GET["email"] . '" AND img.Items_id = i.id
-		GROUP BY i.id;';
-$postI = $db->query($sqlI);
 ?>
 
 <div class="container" id="user"> 
 <?php 
 	if(isset($_GET["email"])) {
+		$sqlH = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
+			FROM items AS i
+			LEFT JOIN images as img ON i.id = img.Items_id 
+			JOIN posts AS P ON p.seller_item_id = i.id
+			JOIN users AS u ON i.Users_email = u.email
+			WHERE u.email = '" . $_GET["email"] . "'
+			GROUP BY p.id";
+		$postH = $db->query($sqlH);
+
+		$sqlT = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
+				FROM items as i
+				LEFT JOIN images as img ON i.id = img.Items_id 
+				JOIN posts AS p ON p.seller_item_id = i.id OR p.buyer_item_id = i.id
+				JOIN users as u ON i.Users_email = u.email
+				WHERE u.email = '" . $_GET["email"] .  "' AND p.buyer_item_id <> null 
+				 GROUP BY p.id;";
+		$postT = $db->query($sqlT);
+
+		$sqlI = 'SELECT i.id, i.name, i.dateAdded,  i.description, img.filePath
+				FROM  items as i 
+				LEFT JOIN images as img ON img.Items_id = i.id
+				WHERE i.Users_email = "' . $_GET["email"] . 
+				'" GROUP BY i.id;';
+		$postI = $db->query($sqlI);
+
+
 		echo "<h2 id='user-email'>" . $_GET["email"] . "</h2>" ?>
 	<?php if(isset($_SESSION["email"]) && $_SESSION["email"] == $_GET["email"]) { ?> 
 	<div class="container" style="margin-top:1em;margin-bottom:1em;" id="add-new"> 
@@ -107,8 +115,11 @@ $postI = $db->query($sqlI);
 		</div>
 	</div>
 <?php 
+	}  else if (isset($_SESSION["email"])) {
+		$location = "location: ./user.php?email=" . $_SESSION["email"];
+		redirect($location);
 	} else {
-		echo "not get";
+		redirect("location: ./index.php");
 	}
 ?>
 </div>

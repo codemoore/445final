@@ -36,22 +36,20 @@ $(window).load(function () {
 		$("#ORDER").change(function() {
 			orderBy === 'Date' ? orderBy = 'Title' : orderBy = 'Date';
 			console.log(ascDesc + orderBy);
-			getTradeList("TradeList" + ascDesc + orderBy);
+			getTradeList("TradeList" + ascDesc + orderBy, "#list");
+
 		});
 
 		$("#ASC").change(function() {
 			console.log(ascDesc + orderBy);
 			ascDesc === 'Desc' ? ascDesc = 'Asc' : ascDesc = 'Desc';
-			getTradeList("TradeList" + ascDesc + orderBy);
+			getTradeList("TradeList" + ascDesc + orderBy, "#list");
 		});
 	}
 	if(document.getElementById("add-new")) {
 		$("#myAccount").addClass("active")
 	}
 
-//	});
-
-	//$("#choose-file input")
 	$("#user").ready(function() {
 		$(".nav-tabs li").click(function (e) {
 			$(".nav-tabs li").removeClass("active");

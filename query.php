@@ -14,7 +14,6 @@ if(isset($_GET["type"])) {
 	}
 } else if (isset($_POST["item-name"])) {
 	if($_POST["item-name"] != null) {
-		echo $_POST["item-name"];
 		$db = connect();
 		$getMaxId = "SELECT id
 					FROM items
@@ -26,7 +25,7 @@ if(isset($_GET["type"])) {
 					. $_POST["item-name"] ."', '" 
 					. getCurDate() ."', '" 
 					. $_POST["item-descript"] . "');";
-		echo $db->exec($newItem);
+		$db->exec($newItem);
 		foreach ($_FILES as $file) {
 			$tmp_name = $file["tmp_name"];
 	        $name = $file["name"];
@@ -36,24 +35,43 @@ if(isset($_GET["type"])) {
 	        	$db->exec($newImage);
 	    	}
 		}
-		redirect("location: ./users.php?=" + $_SESSION["email"]);
+		redirect("location: ./user.php");
+		//redirect("location: ./users.php?=" + $_SESSION["email"]);
 	} else {
-		echo "null";
+		redirect("location: ./user.php");
 		#redirect back with error message
 	}
 } else if (isset($_POST["post-title"])) {
-	echo $_POST["post-title"];
-	echo $_POST["post-descript"];
-	echo $_POST["item"];
+	if($_POST["item"] != null) {
+		$db = connect();
+		$getMaxId = "SELECT id
+					FROM posts
+					ORDER BY id DESC LIMIT 1";
+		$max = $db->query($getMaxId);
+		$id = $max->fetch()[0] + 1;
+		$newPost = 'INSERT INTO Posts VALUES (' . $id .
+					', "' . $_POST["post-title"] . '", "'
+					. getCurDate() . '", "' . $_POST["post-descript"] . '", ' 
+					. $_POST["item"] . ', NULL);';
+		$db->exec($newPost);
+	}
+	redirect("location: ./user.php");
 }
 
 function printTradeList ($order) {
 	header("Content-type: text/html5");
-	$sql = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
-			FROM posts AS p, items as i, users as u, images as img
-			WHERE p.seller_item_id = i.id AND i.Users_email = u.email AND i.id = img.Items_id
-			GROUP BY p.id"
-			. " " . $order . ";";
+	$sql = 'SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
+			FROM items AS i
+			LEFT JOIN images as img ON i.id = img.Items_id 
+			JOIN posts AS P ON p.seller_item_id = i.id OR p.buyer_item_id = i.id
+			JOIN users AS u ON i.Users_email = u.email
+			GROUP BY p.id' . ' ' . $order . ';';
+
+	// $sql = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
+	// 		FROM posts AS p, items as i, users as u, images as img
+	// 		WHERE p.seller_item_id = i.id AND i.Users_email = u.email AND i.id = img.Items_id
+	// 		GROUP BY p.id"
+	// 		. " " . $order . ";";
 	$db = connect();
 	$posts = $db->query($sql);
 

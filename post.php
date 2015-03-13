@@ -7,7 +7,7 @@ include "head.php";
 <?php
 	if(isset($_GET["id"])) {
 		$db = connect();
-		$sql = 		"SELECT p.title, p.description,  p.dateCreated, u.email, i.name, i.description
+		$sql = 		"SELECT p.title, p.description,  p.dateCreated, u.email, i.name, i.description, i.id, p.id
 					FROM posts AS p, items as i, users as u
 					WHERE p.seller_item_id = i.id AND i.Users_email = u.email AND p.id = " . $_GET["id"] . ";";
 		$posts = $db->query($sql);
@@ -19,7 +19,16 @@ include "head.php";
 		if($posts != null) {
 			foreach ($posts as $post) {
 				?>
-				<h2><?php echo $post[0]; ?></h2>
+				<h2><?php echo $post[0]; ?></h2> 
+				<?php if(isset($_SESSION["email"]) && $_SESSION["email"] != $post[3]) { ?>
+				<form action="trade.php" method="get">
+					<input style="visibility:hidden;width:0;height:0;" name="item" value=<?php echo '"' . $post[6] . '"';?>>
+					<input style="visibility:hidden;width:0;height:0;" name="post" value=<?php echo '"' . $post[7] . '"';?>>
+					<button type="submit" class="btn btn-primary">
+						<span class="glyphicon glyphicon-transfer"></span> Trade
+					</button>
+				</form>
+				<?php } ?>
 				<?php echo "<h4>Posted by <a href='./user.php?email=". $post[3] . "'>" . $post[3] . "</a> at " . $post[2] . "</h4>";?>
 				<p> <?php echo $post[1]; ?></p>
 				<div class="container">
