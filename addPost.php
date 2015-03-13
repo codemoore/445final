@@ -18,11 +18,12 @@ include 'functions.php';
 			<select class="form-control" name="item">
 				<?php
 				$db = connect();
+				#gets items that logged in user owns
 				$sql = "SELECT id, name
 						FROM items
 						WHERE Users_email ='" . $_SESSION["email"] . "';";
 				$posts = $db->query($sql);
-				echo $sql;
+				#for each item the user has adds an option
 				foreach ($posts as $post) {
 					echo '<option value="' . $post[0] . '"  selected>' . $post[1] . '</option>';
 				}

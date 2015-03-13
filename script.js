@@ -1,6 +1,7 @@
 $(window).load(function () {
 	console.log("load");
 	if(document.getElementById("sign-in-button")){
+		//redirect to sign in page if click sign in
 		document.getElementById("sign-in-button").onclick = function () {
 			$(location).attr('href', "./login.php");
 		}
@@ -9,10 +10,12 @@ $(window).load(function () {
 	// $("#sign-in-button").click(function (e) {
 	// 	$(location).attr('href', "./login.php");
 	// });
+	//redirect to logout php if click logout
 	$("#sign-out-button").click(function (e) {
 		$(location).attr('href', "./logout.php");
 	});	
 
+	//
 	var links = document.getElementsByClassName("navLink");
 	for (var i = 0; i < links.length; i++) {
 		links[i].className = links[i].className.replace(/\bactive\b/, "");
@@ -31,8 +34,10 @@ $(window).load(function () {
 		$("#list-nav").addClass("active");
 		var orderBy = 'Date';
 		var ascDesc = 'Desc';
+		//get trade list in default order
 		getTradeList("TradeList" + ascDesc + orderBy, "#list");
 
+		//if the order by date / title is toggled, replace with version in that order
 		$("#ORDER").change(function() {
 			orderBy === 'Date' ? orderBy = 'Title' : orderBy = 'Date';
 			console.log(ascDesc + orderBy);
@@ -40,17 +45,21 @@ $(window).load(function () {
 
 		});
 
+		//if the order by asc / desc is toggled, replace with version in that order
 		$("#ASC").change(function() {
 			console.log(ascDesc + orderBy);
 			ascDesc === 'Desc' ? ascDesc = 'Asc' : ascDesc = 'Desc';
 			getTradeList("TradeList" + ascDesc + orderBy, "#list");
 		});
 	}
+
+	//changes active tab
 	if(document.getElementById("add-new")) {
 		$("#myAccount").addClass("active")
 	}
 
 	$("#user").ready(function() {
+		//in user, switch which user info tab is on top
 		$(".nav-tabs li").click(function (e) {
 			$(".nav-tabs li").removeClass("active");
 			$(e.target.parentElement).addClass("active");
@@ -63,6 +72,8 @@ $(window).load(function () {
 
 		});
 	});
+
+	//When click add another image button, creates a new file input tag
 	$("#add-image").click(function (e) {
 		e.preventDefault();
 		var i = $("#choose-file input").length;
@@ -71,6 +82,7 @@ $(window).load(function () {
 	})
 });
 
+//ajax for getting posts list
 function getTradeList(qType, dom) {
 	$.ajax({
 		url: "query.php",

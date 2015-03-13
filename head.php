@@ -20,7 +20,7 @@
 	  				<ul class="nav navbar-nav">	
 	        			<li id="list-nav" class="navLink"><a href="./list.php">Trade List</a></li>
 	        				       		 		<?php 
-	       		 		if (isset($_SESSION["email"])) { ?>
+	       		 		if (isset($_SESSION["email"])) { #if the user is logged in display their email, a myAccount nav link, and change sign in to signout?>
 	       		 			<li id="myAccount" class="navLink"> <?php echo '<a href="./user.php?email=' . $_SESSION["email"] . '">My Account</a>'?> </li>
 	       					<li ><p class="navbar-text" style="display:inline;"><?php echo 'Logged in as:' . $_SESSION["email"] ?> </p></li>
 	       					<li><button type="button" class="btn btn-default navbar-btn" id="sign-out-button">Sign out</button> </li>

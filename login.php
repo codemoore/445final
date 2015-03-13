@@ -14,14 +14,14 @@ include "head.php";
 			<button formaction="loginVerify.php" type="submit" class="btn btn-primary">Log in</button>
 			<button formaction="register.php" type="submit" class="btn btn-primary">Register</button>
 		</form> <br>
-		<?php if ( isset($_GET["loginfail"])){ ?>
+		<?php if ( isset($_GET["loginfail"])){ #didplay if invalid log in ?>
 			<div class="alert alert-danger" role="alert">
 				<p id="error">
 					Incorrect user name / password.  Please try again.
 				</p>
 			</div>
 		<?php } ?>
-		<?php if ( isset($_GET["registerfail"])){ ?>
+		<?php if ( isset($_GET["registerfail"])){ #display if invalid registration?>
 			<div class="alert alert-danger" role="alert">
 				<p id="error">
 					Registration failed. Invalid input or email is already registered.

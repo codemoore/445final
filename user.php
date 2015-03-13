@@ -7,7 +7,8 @@ $db = connect();
 
 <div class="container" id="user"> 
 <?php 
-	if(isset($_GET["email"])) {
+	if(isset($_GET["email"])) { #if there is a user email param
+		#gets the user's posts, where they are a seller 
 		$sqlH = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
 			FROM items AS i
 			LEFT JOIN images as img ON i.id = img.Items_id 
@@ -17,6 +18,7 @@ $db = connect();
 			GROUP BY p.id";
 		$postH = $db->query($sqlH);
 
+		#gets all completed posts (has a buyer) the user was involved with
 		$sqlT = "SELECT p.title, p.description, i.name, u.email, img.filePath, p.dateCreated, p.id
 				FROM items as i
 				LEFT JOIN images as img ON i.id = img.Items_id 
@@ -26,6 +28,7 @@ $db = connect();
 				 GROUP BY p.id;";
 		$postT = $db->query($sqlT);
 
+		#gets items belonging to a user
 		$sqlI = 'SELECT i.id, i.name, i.dateAdded,  i.description, img.filePath
 				FROM  items as i 
 				LEFT JOIN images as img ON img.Items_id = i.id
@@ -35,7 +38,9 @@ $db = connect();
 
 
 		echo "<h2 id='user-email'>" . $_GET["email"] . "</h2>" ?>
-	<?php if(isset($_SESSION["email"]) && $_SESSION["email"] == $_GET["email"]) { ?> 
+	<?php #if logged into that user lets you add items and posts
+	if(isset($_SESSION["email"]) && $_SESSION["email"] == $_GET["email"]) { 
+	?> 
 	<div class="container" style="margin-top:1em;margin-bottom:1em;" id="add-new"> 
 		<form action="addPost.php" method="post" style="display:inline;">
 			<button id="new-post" type="submit" class="btn btn-primary" style="display:inline;"><span class="glyphicon glyphicon-plus"></span>New Post</button>
@@ -58,6 +63,7 @@ $db = connect();
 	<div class="container" id="content">
 		<div class="container user-info foreground" id="postHistory">
 		<?php
+			#print post history
 			echo '<ul class="media-list">';
 			foreach ($postH as $post) {
 				echo 	'<li class="media">';
@@ -77,6 +83,7 @@ $db = connect();
 		</div>
 		<div class="container user-info background" id="tradeHistory">
 		<?php
+			#prints completed transactions
 			echo '<ul class="media-list">';
 			foreach ($postT as $post) {
 				echo 	'<li class="media">';
@@ -96,6 +103,7 @@ $db = connect();
 		</div>
 		<div class="container user-info background" id="items">
 		<?php
+			#prints items
 			echo '<ul class="media-list">';
 			foreach ($postI as $post) {
 				echo 	'<li class="media">';
@@ -116,6 +124,7 @@ $db = connect();
 	</div>
 <?php 
 	}  else if (isset($_SESSION["email"])) {
+		#if $_GET[email] is not set, but the user is logged in, redirect to that user's page
 		$location = "location: ./user.php?email=" . $_SESSION["email"];
 		redirect($location);
 	} else {
