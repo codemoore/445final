@@ -1,10 +1,12 @@
+PHP bartering website, with user accounts, registration, login, ability to add and trade items. This was made in about 4 days, and has some bugs and missing features, as listed below. I have no plans to going back and finishing it, but I think it's alright as is for 4 days of work during a very busy week.
+
 To run locally:
 1. run moore_joshua_backend.sql to create the database
 2. open functions.php and change the user and pass on lines 4 and 5 to match your username and password
-3. If you Use xampp or a similar program to simulate a server with php and mysql
+3a. Use xampp or a similar program to simulate a server with php and mysql
 4. For xampp copy all files into a sub folder in xampp/htdocs folder
 5. In your web browser go to localhost/subfolder/index.php where subfolder is the name of the sub folder in htdocs where you put the files
-6. If you use a server to run php, upload everything to the server and go to index.php
+3b. If you use a server to run php, upload everything to the server and go to index.php
 
 5 Test queries and expected results are shown in test_cases.pdf
 
